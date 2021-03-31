@@ -18,9 +18,9 @@ const motorHat = MotorHat({
 }).init();
 
 const doorMotor = motorHat.steppers[0];
-doorMotor.setSteps(options.steps || 2048);
-doorMotor.setCurrent(options.current || 0.6);
-doorMotor.setSpeed({ rpm: (options.rpm || 5) });
+doorMotor.setSteps(options.steps ? parseInt(options.steps) : 2048);
+doorMotor.setCurrent(options.current ? parseFloat(options.current) : 0.6);
+doorMotor.setSpeed({ rpm: (options.rpm ? parseInt(options.rpm) : 5) });
 
 doorMotor.step('fwd', 200, (err, result) => {
   if (err) return console.log('Oh no, there was an error', err);
