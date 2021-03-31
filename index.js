@@ -33,18 +33,18 @@ doorMotor.step('fwd', distance, (err, result) => {
     I had to retry ${result.retried} steps because you set me up quicker than your poor board can handle.
   `);
 
-  doorMotor.step('back', distance, (err, result) => {
-    if (err) return console.log('Oh no, there was an error', err);
-
-    console.log(`
-      Did ${result.steps} steps ${result.dir} in ${result.duration/1000} seconds.
-      I had to retry ${result.retried} steps because you set me up quicker than your poor board can handle.
-    `);
-
-    process.exit(0);
-  });
+//   doorMotor.step('back', distance, (err, result) => {
+//     if (err) return console.log('Oh no, there was an error', err);
+//
+//     console.log(`
+//       Did ${result.steps} steps ${result.dir} in ${result.duration/1000} seconds.
+//       I had to retry ${result.retried} steps because you set me up quicker than your poor board can handle.
+//     `);
+//
+//   });
+  process.exit(0);
 });
 
 exitHook(() => {
-  doorMotor.releaseSync()
+  doorMotor.releaseSync();
 });
