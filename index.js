@@ -24,7 +24,7 @@ doorMotor.setSteps(options.steps ? parseInt(options.steps) : 2048);
 doorMotor.setCurrent(options.current ? parseFloat(options.current) : 0.6);
 doorMotor.setSpeed({ rpm: (options.rpm ? parseInt(options.rpm) : 5) });
 
-const distance = options.distance ? parseInt(options.Distance) : 200;
+const distance = options.Distance ? parseInt(options.Distance) : 200;
 doorMotor.step('fwd', distance, (err, result) => {
   if (err) return console.log('Oh no, there was an error', err);
 
