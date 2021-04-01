@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <%- include('../partials/head', { pkg }); %>
+  </head>
+
+  <body>
+    <header class="fixed-top">
+      <%- include('../partials/header', { pkg }); %>
+    </header>
+
+    <main class="container">
+      <div class="card">
+        <div class="card-body">
+          <pre><code class="json"><%= JSON.stringify(lodash.pick(req, [
+            'ip', 'ips',
+            'secure', 'protocol',
+            'subdomains', 'hostname',
+            'baseUrl', 'path',
+            'body', 'cookies', 'method', 'params', 'query',
+            'today', 'tomorrow',
+            'todaysTimes', 'tomorrowsTimes',
+          ]), null, 2); %></code></pre>
+        </div>
+      </div>
+    </main>
+
+    <footer class="container fixed-bottom">
+      <%- include('../partials/footer', { pkg }); %>
+    </footer>
+  </body>
+
+  <script>hljs.highlightAll();</script>
+</html>

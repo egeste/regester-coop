@@ -1,17 +1,25 @@
 {
-  "name": "coop",
+  "name": "Chicken-Coop",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "test": "node src/test.js",
+    "start": "node src/index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "ask-sdk": "^2.10.2",
+    "body-parser": "^1.19.0",
     "commander": "^7.2.0",
+    "dotenv": "^8.2.0",
+    "ejs": "^3.1.6",
     "exit-hook": "^2.2.0",
-    "motor-hat": "^2.0.10"
+    "express": "^4.17.1",
+    "lodash": "^4.17.21",
+    "moment-timezone": "^0.5.33",
+    "motor-hat": "^2.0.10",
+    "suncalc-tz": "^1.9.1"
   }
 }
