@@ -10,6 +10,8 @@ const getTimes = () => ({
   tomorrowsTimes: SunCalc.getTimes(moment().add(1, 'day').valueOf(), config.latitude, config.longitude)
 });
 
+let nextOperation;
+const getNextOperation = () => nextOperation;
 const scheduleNextOperation = () => {
   const { todaysTimes, tomorrowsTimes } = getTimes();
   const duskTonight = moment(todaysTimes.dusk);
@@ -17,6 +19,7 @@ const scheduleNextOperation = () => {
 
   if (moment().tz(config.timezone).isAfter(duskTonight)) {
     console.info('Scheduling an `open` operation for', dawnTomorrow.format('LLL'))
+    nextOperation = { when: dawnTomorrow, what: 'openDoor' }
     schedule.scheduleJob(dawnTomorrow, () => {
       require('./motor').openDoor()
         .catch(err => console.error(err))
@@ -24,6 +27,7 @@ const scheduleNextOperation = () => {
     });
   } else {
     console.info('Scheduling a `close` operation for', duskTonight.format('LLL'))
+    nextOperation = { when: duskTonight, what: 'closeDoor' }
     schedule.scheduleJob(duskTonight, () => {
       require('./motor').closeDoor()
         .catch(err => console.error(err))

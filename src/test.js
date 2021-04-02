@@ -12,7 +12,6 @@ program.option('-s, --steps <steps>', 'set the motor to this many steps');
 program.option('-d, -distance <distance>', 'move this many steps')
 program.parse(process.argv);
 const options = program.opts();
-console.log(options);
 
 const motorHat = MotorHat({
   address: 0x60, // For the official Adafruit hat
@@ -42,7 +41,10 @@ doorMotor.step('fwd', distance, (err, result) => {
 //     `);
 //
 //   });
-  process.exit(0);
+
+  setTimeout(() => {
+    process.exit(0);
+  }, 1000);
 });
 
 exitHook(() => {

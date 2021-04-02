@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <%- include('../partials/head', { pkg }); %>
+  </head>
+
+  <body>
+    <header class="fixed-top">
+      <%- include('../partials/header', { pkg }); %>
+    </header>
+
+    <main class="container">
+      <div class="card">
+        <div class="card-body">
+          <pre><code class="plaintext"><%= output %></code></pre>
+        </div>
+      </div>
+    </main>
+
+    <footer class="container fixed-bottom">
+      <%- include('../partials/footer', { pkg }); %>
+    </footer>
+  </body>
+
+  <script type="text/javascript">
+    hljs.highlightAll();
+  </script>
+</html>
