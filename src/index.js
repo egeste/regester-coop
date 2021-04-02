@@ -7,8 +7,10 @@ const bodyParser = require('body-parser');
 
 const config = require('./config');
 
-const app = express();
+const schedule = require('./schedule');
+// schedule.scheduleNextOperation();
 
+const app = express();
 app.set('view engine', 'ejs');
 
 app.locals.lodash = lodash;
@@ -20,10 +22,7 @@ app.locals.pkg = require('../package.json');
 app.locals.doorState = require('./doorstate');
 
 app.use((req, res, next) => {
-  req.today = moment().tz('America/Los_Angeles').startOf('day');
-  req.tomorrow = moment().tz('America/Los_Angeles').add(1, 'day').startOf('day');
-  req.todaysTimes = SunCalc.getTimes(moment().valueOf(), config.latitude, config.longitude);
-  req.tomorrowsTimes = SunCalc.getTimes(moment().add(1, 'day').valueOf(), config.latitude, config.longitude);
+  Object.assign(req, schedule.getTimes());
   next();
 });
 
@@ -48,3 +47,4 @@ app.post('/rpc/door', bodyParser.json(), (req, res) => {
 app.listen(config.serverPort, () => {
   console.log(`Listening at http://localhost:${config.serverPort}`);
 });
+
