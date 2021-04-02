@@ -63,4 +63,4 @@ app.listen(config.serverPort, () => {
   console.log(`Listening at http://localhost:${config.serverPort}`);
 });
 
-schedule.scheduleNextOperation();
+// schedule.scheduleNextOperation();
