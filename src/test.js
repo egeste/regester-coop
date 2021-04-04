@@ -10,7 +10,7 @@ program.version(package.version);
 program.option('-r, --rpm <rpm>', 'set RPM (speed)');
 program.option('-c, --current <current>', 'set current [ 0.0 - 1.0 ]');
 program.option('-s, --steps <steps>', 'set the motor to this many steps');
-program.option('-d, -distance <distance>', 'move this many steps')
+program.option('-d, --distance <distance>', 'move this many steps')
 program.parse(process.argv);
 const options = program.opts();
 
@@ -33,19 +33,18 @@ doorMotor.step('fwd', distance, (err, result) => {
     I had to retry ${result.retried} steps because you set me up quicker than your poor board can handle.
   `);
 
-//   doorMotor.step('back', distance, (err, result) => {
-//     if (err) return console.log('Oh no, there was an error', err);
-//
-//     console.log(`
-//       Did ${result.steps} steps ${result.dir} in ${result.duration/1000} seconds.
-//       I had to retry ${result.retried} steps because you set me up quicker than your poor board can handle.
-//     `);
-//
-//   });
+  doorMotor.step('back', distance, (err, result) => {
+    if (err) return console.log('Oh no, there was an error', err);
 
-  setTimeout(() => {
-    process.exit(0);
-  }, 1000);
+    console.log(`
+      Did ${result.steps} steps ${result.dir} in ${result.duration/1000} seconds.
+      I had to retry ${result.retried} steps because you set me up quicker than your poor board can handle.
+    `);
+
+    setTimeout(() => {
+      process.exit(0);
+    }, 1000);
+  });
 });
 
 exitHook(() => {
