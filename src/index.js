@@ -1,15 +1,18 @@
 const fs = require('fs');
 const tmp = require('tmp');
 const lodash = require('lodash');
+
 const moment = require('moment-timezone');
 const SunCalc = require('suncalc-tz');
-const ConsoleHook = require('console-hook');
 
-const morgan = require('morgan');
 const express = require('express');
+const storage = require('node-persist');
 const bodyParser = require('body-parser');
 
-const config = require('./config');
+const morgan = require('morgan');
+const ConsoleHook = require('console-hook');
+
+const getConfig = require('./config');
 const schedule = require('./schedule');
 
 const logFile = tmp.fileSync();
@@ -19,9 +22,7 @@ app.set('view engine', 'ejs');
 
 app.locals.lodash = lodash;
 app.locals.moment = moment;
-app.locals.SunCalc = SunCalc;
 
-app.locals.config = config;
 app.locals.pkg = require('../package.json');
 app.locals.doorState = require('./doorstate');
 
@@ -31,8 +32,9 @@ ConsoleHook(console).attach((method, args) => {
   stream.write(`${method.toUpperCase()}: ${JSON.stringify(args)}\n`);
 });
 
-app.use((req, res, next) => {
-  Object.assign(req, schedule.getTimes());
+app.use(async (req, res, next) => {
+  app.locals.times = await schedule.getTimes();
+  app.locals.config = await getConfig();
   next();
 });
 
@@ -40,13 +42,13 @@ app.get('/', (req, res) => {
   res.render('pages/index', { req });
 });
 
-app.get('/logs', (req, res) => {
-  const output = fs.readFileSync(logFile.name);
-  res.render('pages/logs', { req, output });
+app.get('/settings', (req, res) => {
+  res.render('pages/settings', { req });
 });
 
 app.get('/debug', (req, res) => {
-  res.render('pages/debug', { req });
+  const logs = fs.readFileSync(logFile.name);
+  res.render('pages/debug', { req, logs });
 });
 
 app.post('/rpc/door', bodyParser.json(), (req, res) => {
@@ -59,8 +61,11 @@ app.post('/rpc/door', bodyParser.json(), (req, res) => {
   }
 });
 
-app.listen(config.serverPort, () => {
-  console.log(`Listening at http://localhost:${config.serverPort}`);
-});
+(async () => {
+  const config = await getConfig();
+  app.listen(config.port, () => {
+    console.info('Listening on port', config.port);
+  });
+})();
 
 // schedule.scheduleNextOperation();

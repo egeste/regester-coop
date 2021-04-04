@@ -1,7 +1,7 @@
 const MotorHat = require('motor-hat');
 const exitHook = require('exit-hook');
 
-const config = require('./config');
+const getConfig = require('./config');
 const doorState = require('./doorstate');
 
 const motorHat = MotorHat({
@@ -9,23 +9,27 @@ const motorHat = MotorHat({
   steppers: [{ W1: 'M1', W2: 'M2' }]
 }).init();
 
-const rpm = 5;
-const steps = 2048;
-const current = 0.8;
-const doorMotor = motorHat.steppers[0];
+const [ doorMotor ] = motorHat.steppers;
 
-doorMotor.setSteps(config.steps);
-doorMotor.setCurrent(config.current);
-doorMotor.setSpeed({ rpm: config.rpm });
+const configureDoor = async () => {
+  const { rpm, steps, current } = await getConfig();
+  doorMotor.setSpeed({rpm});
+  doorMotor.setSteps(steps);
+  doorMotor.setCurrent(current);
+}
 
 const openDoor = () => {
   if (doorState.getIsOpen()) return Promise.resolve();
   if (doorState.getIsBlocked()) return Promise.reject('Door is blocked');
 
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     doorState.setIsBlocked();
 
-    doorMotor.step('fwd', config.distance, (err, result) => {
+    await configureDoor();
+    const config = await getConfig();
+    const stepperDistance = (await storage.getItem('stepperDistance')) || config.distance;
+
+    doorMotor.step('fwd', stepperDistance, (err, result) => {
       doorState.setIsBlocked(false);
 
       if (err) return reject(err);
@@ -39,10 +43,14 @@ const closeDoor = () => {
   if (!doorState.getIsOpen()) return Promise.resolve();
   if (doorState.getIsBlocked()) return Promise.reject('Door is blocked');
 
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     doorState.setIsBlocked();
 
-    doorMotor.step('back', config.distance, (err, result) => {
+    await configureDoor();
+    const config = await getConfig();
+    const stepperDistance = (await storage.getItem('stepperDistance')) || config.distance;
+
+    doorMotor.step('back', stepperDistance, (err, result) => {
       doorState.setIsBlocked(false);
 
       if (err) return reject(err);
@@ -66,14 +74,7 @@ const toggleDoor = open => {
   return shouldBeOpen ? openDoor() : closeDoor();
 }
 
-module.exports = {
-  rpm,
-  steps,
-  current,
-  doorMotor,
-  openDoor,
-  closeDoor
-};
+module.exports = { doorMotor, openDoor, closeDoor }
 
 exitHook(() => {
   doorMotor.releaseSync();

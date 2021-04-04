@@ -1,7 +1,8 @@
 const { Command } = require('commander');
-const package = require('./package.json');
 const exitHook = require('exit-hook');
 const MotorHat = require('motor-hat');
+
+const package = require('../package.json');
 
 const program = new Command();
 program.version(package.version);
