@@ -26,25 +26,19 @@ doorMotor.setSpeed({ rpm: (options.rpm ? parseInt(options.rpm) : 5) });
 
 const distance = options.distance ? parseInt(options.distance) : 200;
 doorMotor.step('fwd', distance, (err, result) => {
-  if (err) return console.log('Oh no, there was an error', err);
+  if (err) return console.error(err);
+  console.info(`Did ${result.steps} steps ${result.dir} in ${result.duration/1000} seconds with ${result.retried} retries.`);
 
-  console.log(`
-    Did ${result.steps} steps ${result.dir} in ${result.duration/1000} seconds.
-    I had to retry ${result.retried} steps because you set me up quicker than your poor board can handle.
-  `);
+  setTimeout(() => {
+    doorMotor.step('back', distance, (err, result) => {
+      if (err) return console.error(err);
+      console.info(`Did ${result.steps} steps ${result.dir} in ${result.duration/1000} seconds with ${result.retried} retries.`);
 
-  doorMotor.step('back', distance, (err, result) => {
-    if (err) return console.log('Oh no, there was an error', err);
-
-    console.log(`
-      Did ${result.steps} steps ${result.dir} in ${result.duration/1000} seconds.
-      I had to retry ${result.retried} steps because you set me up quicker than your poor board can handle.
-    `);
-
-    setTimeout(() => {
-      process.exit(0);
-    }, 1000);
-  });
+      setTimeout(() => {
+        process.exit(0);
+      }, 1000);
+    });
+  }, 5000);
 });
 
 exitHook(() => {
