@@ -15,12 +15,12 @@
         <div class="col-12 col-xl-4 mb-3">
           <div class="card text-white <%= doorState.getIsOpen() ? 'bg-success' : 'bg-dark' %>">
             <div class="card-body text-center">
-<% if (doorState.getIsBlocked()) { %>
+            <% if (doorState.getIsBlocked()) { %>
               <a class="btn btn-link py-3" href="/">
                 <i class="fas fa-spinner fa-pulse fa-3x"></i>
                 <p>Reload for updated status</p>
               </a>
-<% } else { %>
+            <% } else { %>
               <form method="post" action="/rpc/door">
                 <h1 class="my-3">
                   <%= doorState.getIsOpen() ? 'Door is Open' : 'Door is Closed' %>
@@ -29,18 +29,18 @@
                   <%= doorState.getIsOpen() ? 'Close Door' : 'Open Door' %>
                 </a>
               </form>
-<% } %>
+            <% } %>
             </div>
           </div>
         </div>
         <div class="col-12 col-md-6 col-xl-4 mb-3">
           <div class="card text-center">
-            <div class="card-header"><%= req.today.format('LL') %></div>
+            <div class="card-header"><%= times.today.format('LL') %></div>
             <div class="card-body">
               <div class="row">
                 <div class="col">
                   <div class="card-title">Dawn</div>
-                  <h5><%= moment(req.todaysTimes.dawn).format('LT') %></h5>
+                  <h5><%= moment(times.todaysTimes.dawn).format('LT') %></h5>
                 </div>
                 <div class="col py-3">
                   <h3 class="text-muted">
@@ -49,7 +49,7 @@
                 </div>
                 <div class="col">
                   <div class="card-title">Dusk</div>
-                  <h5><%= moment(req.todaysTimes.dusk).format('LT') %></h5>
+                  <h5><%= moment(times.todaysTimes.dusk).format('LT') %></h5>
                 </div>
               </div>
             </div>
@@ -57,12 +57,12 @@
         </div>
         <div class="col-12 col-md-6 col-xl-4 mb-3">
           <div class="card text-center">
-            <div class="card-header"><%= req.tomorrow.format('LL') %></div>
+            <div class="card-header"><%= times.tomorrow.format('LL') %></div>
             <div class="card-body">
               <div class="row">
                 <div class="col">
                   <div class="card-title">Dawn</div>
-                  <h5><%= moment(req.tomorrowsTimes.dawn).format('LT') %></h5>
+                  <h5><%= moment(times.tomorrowsTimes.dawn).format('LT') %></h5>
                 </div>
                 <div class="col py-3">
                   <h3 class="text-muted">
@@ -71,7 +71,7 @@
                 </div>
                 <div class="col">
                   <div class="card-title">Dusk</div>
-                  <h5><%= moment(req.tomorrowsTimes.dusk).format('LT') %></h5>
+                  <h5><%= moment(times.tomorrowsTimes.dusk).format('LT') %></h5>
                 </div>
               </div>
             </div>

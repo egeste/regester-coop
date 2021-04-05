@@ -12,28 +12,46 @@
 
     <main class="container">
 
-      <div class="card my-3">
-        <div class="card-header">Logs</div>
-        <div class="card-body">
-          <pre><code class="plaintext"><%= logs %></code></pre>
-        </div>
-      </div>
-
-      <details class="my-3">
-        <div class="card">
-          <div class="card-body">
-            <pre><code class="json"><%= JSON.stringify(lodash.pick(req, [
-              'ip', 'ips',
-              'secure', 'protocol',
-              'subdomains', 'hostname',
-              'baseUrl', 'path',
-              'body', 'cookies', 'method', 'params', 'query',
-              'today', 'tomorrow',
-              'todaysTimes', 'tomorrowsTimes',
-            ]), null, 2); %></code></pre>
+      <div class="row">
+        <div class="col">
+          <div class="card mb-3">
+            <div class="card-header">Logs</div>
+            <div class="card-body">
+              <pre><code class="plaintext"><%= logs %></code></pre>
+            </div>
           </div>
         </div>
-      </details>
+        <div class="col">
+          <div class="card mb-3">
+            <div class="card-header">Config</div>
+            <div class="card-body">
+              <pre><code class="json"><%= JSON.stringify(config, null, 2); %></code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card mb-3">
+            <div class="card-header">Request</div>
+            <div class="card-body">
+              <pre><code class="json"><%= JSON.stringify(lodash.pick(req, [
+                'ip', 'ips',
+                'secure', 'protocol',
+                'subdomains', 'hostname',
+                'baseUrl', 'path',
+                'body', 'cookies', 'method', 'params', 'query'
+              ]), null, 2); %></code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card mb-3">
+            <div class="card-header">SunCalc</div>
+            <div class="card-body">
+              <pre><code class="json"><%= JSON.stringify(times, null, 2); %></code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
 
     <footer class="container fixed-bottom">

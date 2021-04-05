@@ -1,6 +1,5 @@
 const moment = require('moment');
 const SunCalc = require('suncalc-tz');
-const storage = require('node-persist');
 const schedule = require('node-schedule');
 
 const getConfig = require('./config');
