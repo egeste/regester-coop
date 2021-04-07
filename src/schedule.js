@@ -15,9 +15,6 @@ const getTimes = async () => {
   }
 }
 
-let nextOperation;
-const getNextOperation = () => nextOperation;
-
 const scheduleNextOperation = async () => {
   const config = await getConfig();
   const { todaysTimes, tomorrowsTimes } = await getTimes();
@@ -25,23 +22,25 @@ const scheduleNextOperation = async () => {
   const duskTonight = moment(todaysTimes.dusk);
   const dawnTomorrow = moment(tomorrowsTimes.dawn);
 
-  if (moment().tz(config.timezone).isAfter(duskTonight)) {
-    console.info('Scheduling an `open` operation for', dawnTomorrow.format('LLL'));
-    nextOperation = { when: dawnTomorrow, what: 'openDoor' }
-    schedule.scheduleJob(dawnTomorrow, () => {
-      require('./motor').openDoor()
-        .catch(err => console.error(err))
-        .then(() => scheduleNextOperation());
-    });
-  } else {
-    console.info('Scheduling a `close` operation for', duskTonight.format('LLL'));
-    nextOperation = { when: duskTonight, what: 'closeDoor' }
-    schedule.scheduleJob(duskTonight, () => {
-      require('./motor').closeDoor()
-        .catch(err => console.error(err))
-        .then(() => scheduleNextOperation());
-    });
+  const scheduleSpec = (moment().tz(config.timezone).isAfter(duskTonight)) ? {
+    date: dawnTomorrow.valueOf(),
+    operation: () => require('./motor').openDoor()
+  } : {
+    date: duskTonight.valueOf(),
+    operation: () => require('./motor').closeDoor()
   }
+
+  schedule.scheduleJob(scheduleSpec.date, async () => {
+    const config = await getConfig();
+
+    if (!config.automate) {
+      return scheduleNextOperation();
+    }
+
+    scheduleSpec.operation()
+      .catch(err => console.error(err))
+      .then(() => scheduleNextOperation());
+  });
 }
 
 module.exports = { getTimes, scheduleNextOperation }

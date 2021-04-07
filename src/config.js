@@ -6,6 +6,7 @@ module.exports = async () => {
   await storage.init();
 
   const port = parseInt(process.env.PORT || 3000);
+  const automate = Boolean(await storage.getItem('automate'));
 
   const timezone = ((await storage.getItem('timezone')) || process.env.MOMENT_TIMEZONE || 'America/Los_Angeles');
   const latitude = parseFloat((await storage.getItem('latitude')) || process.env.GPS_LATITUDE || 0);
@@ -18,7 +19,7 @@ module.exports = async () => {
   const frequency = parseInt((await storage.getItem('frequency') || process.env.MOTOR_FREQUENCY) || undefined);
 
   return {
-    port,
+    port, automate,
     timezone, latitude, longitude,
     rpm, steps, current, distance, frequency
   }

@@ -69,9 +69,12 @@ const schedule = require('./schedule');
   app.post('/rpc/update_settings', async (req, res) => {
     try {
       await storage.setItem('port', req.body.port);
+      await storage.setItem('automate', req.body.automate);
+
       await storage.setItem('timezone', req.body.timezone);
       await storage.setItem('latitude', req.body.latitude);
       await storage.setItem('longitude', req.body.longitude);
+
       await storage.setItem('rpm', req.body.rpm);
       await storage.setItem('steps', req.body.steps);
       await storage.setItem('current', req.body.current);

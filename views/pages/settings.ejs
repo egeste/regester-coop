@@ -17,12 +17,12 @@
           <div class="card-body">
             <div class="form-group row">
               <div class="col">
-                <label class="form-label">Server Port</small></label>
-                <input name="port" type="number" min="1024" max="65535" class="form-control" value="<%=config.port%>" disabled />
-              </div>
-
-              <div class="col">
-                <label class="form-label">Timezone</small></label>
+                <label class="form-label">
+                  <span>Timezone</span>
+                  <sup class="text-info" title="Set the timezone for the location where this device is installed">
+                    <i class="fas fa-question-circle ml-1"></i>
+                  </sup>
+                </label>
                 <select name="timezone" class="form-control">
                   <% moment.tz.names().forEach(timezone => { %>
                   <option value="<%=timezone%>" <% if (timezone === config.timezone) {%>selected<% } %>>
@@ -33,13 +33,33 @@
               </div>
 
               <div class="col">
-                <label class="form-label">Latitude</small></label>
+                <label class="form-label">
+                  <span>Latitude</span>
+                  <sup class="text-info" title="Set the latitude for the location where this device is installed">
+                    <i class="fas fa-question-circle ml-1"></i>
+                  </sup>
+                </label>
                 <input name="latitude" type="text"class="form-control" value="<%=config.latitude%>" />
               </div>
 
               <div class="col">
-                <label class="form-label">Longitude</small></label>
+                <label class="form-label">
+                  <span>Longitude</span>
+                  <sup class="text-info" title="Set the longitude for the location where this device is installed">
+                    <i class="fas fa-question-circle ml-1"></i>
+                  </sup>
+                </label>
                 <input name="longitude" type="text" class="form-control" value="<%=config.longitude%>" />
+              </div>
+
+              <div class="col">
+                <label class="form-label">
+                  <span>Enable Automation</span>
+                  <sup class="text-info" title="Toggle door open/close automation">
+                    <i class="fas fa-question-circle ml-1"></i>
+                  </sup>
+                </label>
+                <input name="automate" value="true" type="checkbox" class="form-control" value="<%=config.automate%>" <% if (config.automate) { %>checked<% } %>/>
               </div>
             </div>
           </div>
@@ -50,27 +70,52 @@
           <div class="card-body">
             <div class="form-group row">
               <div class="col">
-                <label class="form-label">Motor Speed</small></label>
+                <label class="form-label">
+                  <span>Motor Speed</span>
+                  <sup class="text-info" title="Set the motor rotations per minute">
+                    <i class="fas fa-question-circle ml-1"></i>
+                  </sup>
+                </label>
                 <input name="rpm" type="number" min="1" max="10" class="form-control" value="<%=config.rpm%>" />
               </div>
 
               <div class="col">
-                <label class="form-label">Motor Steps</small></label>
+                <label class="form-label">
+                  <span>Motor Steps</span>
+                  <sup class="text-info" title="Set the motor number of steps per revolution">
+                    <i class="fas fa-question-circle ml-1"></i>
+                  </sup>
+                </label>
                 <input name="steps" type="number" min="1" max="4096" class="form-control" value="<%=config.steps%>" />
               </div>
 
               <div class="col">
-                <label class="form-label">Motor Current</small></label>
+                <label class="form-label">
+                  <span>Motor Current</span>
+                  <sup class="text-info" title="Set the motor current (0 - 1)">
+                    <i class="fas fa-question-circle ml-1"></i>
+                  </sup>
+                </label>
                 <input name="current" type="number" min="0" max="1" step="0.1" class="form-control" value="<%=config.current%>" />
               </div>
 
               <div class="col">
-                <label class="form-label">Motor Frequency</small></label>
+                <label class="form-label">
+                  <span>Motor Frequency</span>
+                  <sup class="text-info" title="Set the motor PWM frequency">
+                    <i class="fas fa-question-circle ml-1"></i>
+                  </sup>
+                </label>
                 <input name="frequency" type="number" min="0" max="99999" class="form-control" value="<%=config.frequency%>" />
               </div>
 
               <div class="col">
-                <label class="form-label">Open Distance</small></label>
+                <label class="form-label">
+                  <span>Open Distance</span>
+                  <sup class="text-info" title="Set the number of steps to move when opening/closing">
+                    <i class="fas fa-question-circle ml-1"></i>
+                  </sup>
+                </label>
                 <input name="distance" type="number" min="200" max="5000" class="form-control" value="<%=config.distance%>" />
               </div>
             </div>
@@ -89,4 +134,10 @@
       <%- include('../partials/footer', { pkg }); %>
     </footer>
   </body>
+
+  <script type="text/javascript">
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  </script>
 </html>
