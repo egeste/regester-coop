@@ -12,10 +12,12 @@ const motorHat = MotorHat({
 const [ doorMotor ] = motorHat.steppers;
 
 const configureDoor = async () => {
-  const { rpm, steps, current } = await getConfig();
-  doorMotor.setSpeed({rpm});
-  doorMotor.setSteps(steps);
-  doorMotor.setCurrent(current);
+  const { rpm, steps, current, frequency } = await getConfig();
+
+  if (rpm) doorMotor.setSpeed({rpm});
+  if (steps) doorMotor.setSteps(steps);
+  if (current) doorMotor.setCurrent(current);
+  if (frequency) doorMotor.setFrequencySync(frequency);
 }
 
 const openDoor = () => {

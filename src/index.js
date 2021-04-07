@@ -76,6 +76,7 @@ const schedule = require('./schedule');
       await storage.setItem('steps', req.body.steps);
       await storage.setItem('current', req.body.current);
       await storage.setItem('distance', req.body.distance);
+      await storage.setItem('frequency', req.body.frequency);
       res.redirect('/settings');
     } catch (e) {
       res.sendStatus(500);
