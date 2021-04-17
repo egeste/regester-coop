@@ -18,7 +18,8 @@ program.parse(process.argv);
 
 const motorHat = MotorHat({
   address: 0x60, // For the official Adafruit hat
-  steppers: [{ W1: 'M1', W2: 'M2' }]
+  steppers: [{ W1: 'M1', W2: 'M2' }],
+  style: 'double'
 }).init();
 
 const options = program.opts();
@@ -44,10 +45,12 @@ doorMotor.step('fwd', distance, (err, result) => {
   if (err) return console.error(err);
   console.info(`Did ${result.steps} steps ${result.dir} in ${result.duration/1000} seconds with ${result.retried} retries.`);
 
-  doorMotor.setCurrent(0.01);
+  // doorMotor.setCurrent(0.0025);
+  doorMotor.setFrequencySync(100);
 
   setTimeout(() => {
-    doorMotor.setCurrent(parseFloat(options.current || config.current));
+    doorMotor.setFrequencySync(freq);
+    // doorMotor.setCurrent(parseFloat(options.current || config.current));
 
     doorMotor.step('back', distance, (err, result) => {
       if (err) return console.error(err);
