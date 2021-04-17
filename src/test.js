@@ -57,6 +57,6 @@ doorMotor.step('fwd', distance, (err, result) => {
   }, (time * 1000));
 });
 
-// exitHook(() => {
-//   doorMotor.releaseSync();
-// });
+exitHook(() => {
+  doorMotor.releaseSync();
+});
