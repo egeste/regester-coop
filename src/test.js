@@ -27,7 +27,7 @@ const doorMotor = motorHat.steppers[0];
 doorMotor.setSpeed({ rpm: parseInt(options.rpm || config.rpm) });
 doorMotor.setSteps(parseInt(options.steps || config.steps));
 doorMotor.setCurrent(parseFloat(options.current || config.current));
-doorMotor.setFrequencySync(options.frequency || config.frequency);
+doorMotor.setFrequencySync(parseInt(options.frequency || config.frequency));
 
 // const rpm = 30;
 // const radians = (degrees => degrees * (Math.PI/180))(1.8);

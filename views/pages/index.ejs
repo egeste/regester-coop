@@ -13,7 +13,7 @@
     <main class="container">
       <div class="row mb-3">
         <div class="col-12 col-xl-4 mb-3">
-          <div class="card text-white <%= doorState.getIsOpen() ? 'bg-success' : 'bg-dark' %>">
+          <div class="card text-white <%= doorState.getIsOpen() ? 'bg-info' : 'bg-dark' %>">
             <div class="card-body text-center">
             <% if (doorState.getIsBlocked()) { %>
               <a class="btn btn-link py-3" href="/">
