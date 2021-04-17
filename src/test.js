@@ -44,7 +44,7 @@ doorMotor.step('fwd', distance, (err, result) => {
   if (err) return console.error(err);
   console.info(`Did ${result.steps} steps ${result.dir} in ${result.duration/1000} seconds with ${result.retried} retries.`);
 
-  doorMotor.setCurrent(0.001);
+  doorMotor.setCurrent(0.01);
 
   setTimeout(() => {
     doorMotor.setCurrent(parseFloat(options.current || config.current));
