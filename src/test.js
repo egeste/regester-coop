@@ -29,7 +29,7 @@ doorMotor.setSteps(parseInt(options.steps || config.steps));
 doorMotor.setCurrent(parseFloat(options.current || config.current));
 
 const freq = parseInt(options.frequency || config.frequency);
-if (freq) { doorMotor.setFrequencySync(); }
+if (freq) { doorMotor.setFrequencySync(freq); }
 
 // const rpm = 30;
 // const radians = (degrees => degrees * (Math.PI/180))(1.8);
@@ -44,7 +44,7 @@ doorMotor.step('fwd', distance, (err, result) => {
   if (err) return console.error(err);
   console.info(`Did ${result.steps} steps ${result.dir} in ${result.duration/1000} seconds with ${result.retried} retries.`);
 
-  doorMotor.setCurrent(0.01);
+  doorMotor.setCurrent(0.001);
 
   setTimeout(() => {
     doorMotor.setCurrent(parseFloat(options.current || config.current));
@@ -57,6 +57,6 @@ doorMotor.step('fwd', distance, (err, result) => {
   }, (time * 1000));
 });
 
-exitHook(() => {
-  doorMotor.releaseSync();
-});
+// exitHook(() => {
+//   doorMotor.releaseSync();
+// });
